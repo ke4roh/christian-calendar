@@ -41,7 +41,6 @@ test('Year class', () => {
   ];
 
   year.seasons.forEach((season, index) => {
-    console.log(index); console.log(season.name);
     const expectedSeason = expectedSeasons[index];
 
     expect(season.name).toEqual(expectedSeason[0], `${index}: Expected ${season.name} to equal ${expectedSeason[0]}`);

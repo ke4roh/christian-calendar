@@ -1,6 +1,8 @@
-const computeEaster = require('../libs/christian-calendar').computeEaster;
+import ChristianCalendar from '../src/libs/christian-calendar';
+const computeEaster = ChristianCalendar.computeEaster;
 
-describe('computeEasterDate', () => {
+
+describe('computeEaster', () => {
   it('should return the correct date of Easter for a given year', () => {
     const easterDates = {
       2021: new Date(2021, 3, 4), // April 4, 2021
@@ -13,7 +15,7 @@ describe('computeEasterDate', () => {
     };
 
     for (const [year, expectedDate] of Object.entries(easterDates)) {
-      const date = computeEaster(year);
+      const date = computeEaster(Number(year));
       expectedDate.setUTCHours(0, 0, 0, 0);
       expect(date).toEqual(expectedDate);
     }

@@ -1,4 +1,5 @@
-const cal = require('../libs/christian-calendar');
+import ChristianCalendar from '../src/libs/christian-calendar';
+const cal = ChristianCalendar;
 
 describe("getSeason", () => {
   test.each([

@@ -1,4 +1,5 @@
-const cal = require('../libs/christian-calendar');
+import ChristianCalendar from '../src/libs/christian-calendar';
+const cal = ChristianCalendar;
 
 describe("computeAdvent", () => {
   test.each([
@@ -8,6 +9,6 @@ describe("computeAdvent", () => {
     [2024, new Date("2024-12-01")],
     [2025, new Date("2025-11-30")],
   ])("First Sunday in Advent %i should be %p", (year, expected) => {
-    expect(cal.computeAdvent(year)).toEqual(expected);
+    expect(cal.computeAdvent(Number(year))).toEqual(expected);
   });
 });

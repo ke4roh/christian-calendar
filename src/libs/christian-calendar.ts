@@ -14,9 +14,9 @@ namespace ChristianCalendar {
     return targetDate;
   }
   
-  export function computeEaster(year: number): Date | null {
+  export function computeEaster(year: number): Date {
     if (year < 1900) {
-      return null; // Invalid input, return null
+	    throw new Error("Date out of range.")
     }
   
     let a = year % 19;
@@ -61,7 +61,7 @@ namespace ChristianCalendar {
   export class Color {
     name: string;
     rgb: string;
-    constructor(name, rgb) {
+    constructor(name: string, rgb: string) {
       this.name = name;
       this.rgb = rgb;
     }
@@ -127,9 +127,9 @@ namespace ChristianCalendar {
     id: number;
   	
     constructor(name: string, startDate: Date, endDate: Date, colors: Color[], alternateColors: Color[], year: Year) {
-      if (startDate.getUTCHours()!=0) throw `Start date ${startDate} for ${name} has hours`;
-      if (startDate.getUTCMinutes()!=0) throw "Start date has minutes";
-      if (startDate.getUTCSeconds()!=0) throw "Start date has seconds";
+      if (startDate.getUTCHours() !==0 ) throw new Error(`Start date ${startDate} for ${name} has hours`);
+      if (startDate.getUTCMinutes() !==0 ) throw new Error("Start date has minutes");
+      if (startDate.getUTCSeconds() !==0 ) throw new Error("Start date has seconds");
       this.name = name;
       this.startDate = startDate;
       this.endDate = endDate;
@@ -194,12 +194,12 @@ namespace ChristianCalendar {
     }
    
   
-    private _addSeason(name, startDate, colors, alternateColors, endDate = null) {
-      const realEndDate = endDate ? endDate : addDays(this.seasons.at(-1).startDate,-1);
+    private _addSeason(name: string, startDate: Date, colors: string[], alternateColors: string[], endDate: Date|null = null) {
+      const realEndDate = endDate ? endDate : addDays(this.seasons!.at(-1)!.startDate,-1);
       const season = new Season(
         name, startDate, realEndDate, 
-  	    colors.map(function(color) { return palette.get(color) }),
-  	    alternateColors.map(function(color) { return palette.get(color) }), this)
+  	    colors.map(function(color) { return colorize(color) }),
+  	    alternateColors.map(function(color) { return colorize(color) }), this)
       this.seasons.push(season);
     }
   }

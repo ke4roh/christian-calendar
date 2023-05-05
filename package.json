@@ -2,11 +2,18 @@
   "name": "Christian Calendar",
   "version": "1.0.0",
   "type": "module",
+  "main": "index.tsx",
   "scripts": {
     "test": "jest",
     "start": "react-scripts start",
     "build": "react-scripts build --entry ./src/index.tsx",
     "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "devDependencies": {
     "@types/jest": "^29.5.1",

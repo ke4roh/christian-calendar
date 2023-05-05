@@ -1,8 +1,8 @@
 import ChristianCalendar from '../src/libs/christian-calendar';
 
-function idate(dateString) {
+function idate(dateString: string): Date {
    const [year, month, day] = dateString.split("-");
-   return new Date(Date.UTC(year, month - 1, day));
+   return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
 }
 
 type SeasonTestCase = {
@@ -54,15 +54,14 @@ function stc(name: string, startDate: string, endDate: string, colors: string[],
 
 describe('Year class', () => {
   it ("Should know its year number and RCL year", () => {
-     const year = new ChristianCalendar.Year(2020);
-     expect(year.year).toBe(2020);
+     const year = new ChristianCalendar.Year(2021);
+     expect(year.year).toBe(2021);
      expect(year.rclYear).toBe('B');
   });    
 
   it ("Should return the correct number of seasons for a given year.", () => { 
-    const year = new ChristianCalendar.Year(2020);
+    const year = new ChristianCalendar.Year(2021);
     const seasons = year.seasons;
-    let i=0;
     expect(year.seasons).toHaveLength(cases.length);
   });
 

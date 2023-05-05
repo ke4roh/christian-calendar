@@ -21,9 +21,8 @@ describe('computeEaster', () => {
     }
   });
 
-  it('should return null for a year less than 1900', () => {
-    const date = computeEaster(1800);
-    expect(date).toBeNull();
+  it('should throw an exception for a year less than 1900', () => {
+    expect(() => { computeEaster(1800); }).toThrow("Invalid before 1876");
   });
 });
 

@@ -3,13 +3,13 @@ const cal = ChristianCalendar;
 
 describe('RCLYear', () => {
   test.each([
-	  [2017,'B'],
-	  [2018,'C'],
-	  [2019,'A'],
-	  [2020,'B'],
-	  [2021,'C'],
-	  [2022,'A'],
-	  [2023,'B']
+	  [2018,'B'],
+	  [2019,'C'],
+	  [2020,'A'],
+	  [2021,'B'],
+	  [2022,'C'],
+	  [2023,'A'],
+	  [2024,'B']
       ])('RCL year for %d should be %s', (year, expected) => {
     expect(cal.rclYear(year)).toBe(expected);
   });

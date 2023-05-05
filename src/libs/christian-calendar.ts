@@ -15,8 +15,8 @@ namespace ChristianCalendar {
   }
   
   export function computeEaster(year: number): Date {
-    if (year < 1900) {
-	    throw new Error("Date out of range.")
+    if (year < 1876) {
+	    throw new Error("Invalid before 1876")
     }
   
     let a = year % 19;
@@ -51,7 +51,7 @@ namespace ChristianCalendar {
   
   
   export function rclYear(year: number): string {
-      const rclStartYear = 2019;
+      const rclStartYear = 2020;
       const rclYears = ["A", "B", "C"];
       const diff = year - rclStartYear;
       const index = diff >= 0 ? diff % 3 : ((diff % 3) + 3) % 3;
@@ -152,15 +152,15 @@ namespace ChristianCalendar {
       // This number corresponds to the year in which the Christian year begins.
       this.year = year;
       this.rclYear = rclYear(year);
-      const advent = this.advent = computeAdvent(year);
-      const easter = this.easter = computeEaster(year + 1);
+      const advent = this.advent = computeAdvent(year-1);
+      const easter = this.easter = computeEaster(year);
   	  
       // Following dates are necessary to complete calculation, and it's easier to
       // read with the names than the dates, but they are not worthy of 
       // inclusion in exported values.
-      const christmas = new Date(Date.UTC(year, 11, 25));
-      const allSaints = new Date(Date.UTC(year + 1, 10, 1));
-      const nextAdvent = computeAdvent(year + 1);
+      const christmas = new Date(Date.UTC(year-1, 11, 25));
+      const allSaints = new Date(Date.UTC(year, 10, 1));
+      const nextAdvent = computeAdvent(year);
   
       // adding seasons backward to get the end dates automatically
       this.seasons = [];
@@ -228,7 +228,7 @@ namespace ChristianCalendar {
   export function yearFor(date: Date): number {
      let currentYear = date.getFullYear();
      let advent = computeAdvent(currentYear);
-     return (advent.getTime() <= date.getTime() ? 0 : -1) + currentYear;
+     return (advent.getTime() <= date.getTime() ? 1 : 0) + currentYear;
   }
 }
 

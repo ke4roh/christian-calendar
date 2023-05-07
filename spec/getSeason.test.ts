@@ -1,14 +1,14 @@
 import ChristianCalendar from '../src/libs/christian-calendar';
-const cal = ChristianCalendar;
+import DateWithoutTime from '../src/libs/dateWithoutTime';
 
 describe("getSeason", () => {
   test.each([
-	  [new Date("2021-01-01"), "Christmas"],
-	  [new Date("2020-12-25"), "Christmas"],
-	  [new Date("2020-12-01"), "Advent 1-2"],
-	  [new Date("2020-04-01"), "Lent"],
-	  [new Date("2020-11-28"), "Christ the King"]
+	  [new DateWithoutTime("2021-01-01"), "Christmas"],
+	  [new DateWithoutTime("2020-12-25"), "Christmas"],
+	  [new DateWithoutTime("2020-12-01"), "Advent 1-2"],
+	  [new DateWithoutTime("2020-04-01"), "Lent"],
+	  [new DateWithoutTime("2020-11-28"), "Christ the King"]
   ])("The season for %p should be %s", (date, expectedSeason) => {
-    expect(cal.getSeason(date).name).toEqual(expectedSeason);
+    expect(ChristianCalendar.getSeason(date).name).toEqual(expectedSeason);
   });
 });

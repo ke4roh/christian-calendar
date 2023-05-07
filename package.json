@@ -5,6 +5,7 @@
   "main": "index.tsx",
   "scripts": {
     "test": "jest",
+    "quickTest": "jest --bail --onlyFailures",
     "start": "react-scripts start",
     "build": "react-scripts build --entry ./src/index.tsx",
     "eject": "react-scripts eject"
@@ -39,6 +40,7 @@
     ]
   },
   "dependencies": {
+    "moment-timezone": "^0.5.43",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

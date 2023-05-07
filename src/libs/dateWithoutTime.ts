@@ -1,0 +1,101 @@
+import moment from "moment-timezone";
+
+export default class DateWithoutTime {
+  private date: moment.Moment;
+
+  constructor();
+  constructor(date: Date);
+  constructor(dateString: string);
+  constructor(year: number, month: number, day: number);
+  constructor(arg1?: Date | string | number, arg2?: number, arg3?: number) {
+    let _year = 0;
+    let _month = 0;
+    let _day = 0;
+    try {
+    if (arg1 instanceof Date) {
+      _year = arg1.getFullYear();
+      _month = arg1.getMonth() + 1;
+      _day = arg1.getDate();
+    } else if (typeof arg1 === 'string') {
+      [_year, _month, _day] = arg1.split('T')[0].split('-').map(Number);
+    } else {
+      _year = arg1 || new Date().getFullYear();
+      _month = arg2 == null ? new Date().getMonth() + 1 : arg2;
+      _day = arg3 == null ? new Date().getDate() : arg3;
+    }
+    this.date = moment.utc(new Date(Date.UTC(_year, _month - 1, _day))).startOf("day");
+    } catch (error) {
+	if (error instanceof RangeError) {
+	   console.log(`${error.message}: ${_year}-${_month}-${_day}`)
+	}
+        throw error;
+    }
+  }
+
+  static fromDate(date: Date): DateWithoutTime {
+    return new DateWithoutTime(date);
+  }
+
+  static fromISOString(isoString: string): DateWithoutTime {
+    return new DateWithoutTime(isoString);
+  }
+
+  toString(): string {
+    return this.toISOString();
+  }
+
+  get year(): number {
+    return this.date.utc().year();
+  }
+
+  get month(): number {
+    return this.date.utc().month() + 1; // Moment uses 0-based index for months
+  }
+
+  get day(): number {
+    return this.date.utc().date();
+  }
+
+  get dayOfYear(): number {
+    return this.date.utc().dayOfYear();
+  }
+
+  toISOString(): string {
+    return this.date.utc().format("YYYY-MM-DD");
+  }
+
+  getDay(): number {
+    return this.date.utc().day();
+  }
+
+  getTime(): number {
+    return this.date.unix();
+  }
+
+  public valueOf(): number {
+    return Math.floor(this.getTime() / (60 * 60 * 24));
+  }
+
+  public addDays(days: number): DateWithoutTime {
+    const newDate = new Date(this.toISOString());
+    newDate.setUTCDate(newDate.getUTCDate() + days);
+    return new DateWithoutTime(newDate.toISOString().substring(0, 10));
+  }
+
+  public equals(other: DateWithoutTime): boolean {
+    return this.getTime() === other.getTime();
+  }
+
+  public compareTo(other: DateWithoutTime): number {
+    const thisTime = this.getTime();
+    const otherTime = other.getTime();
+    if (thisTime < otherTime) {
+      return -1;
+    } else if (thisTime > otherTime) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+}
+

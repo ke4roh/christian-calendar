@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import DateWithoutTime from "./dateWithoutTime";
 
 // Library for computing the Christian calendar seasons and colors
 // 
@@ -7,14 +8,7 @@
 // - Season end dates are a convenience, at the start of the (GMT) day 
 //   ending the season
 namespace ChristianCalendar {
-  export function addDays(date: Date, days: number): Date {
-    const oneDayMs = 24 * 60 * 60 * 1000; // milliseconds in one day
-    const targetTimeMs = date.getTime() + days * oneDayMs; // target time in milliseconds
-    const targetDate = new Date(targetTimeMs); // create a new Date object using the target time
-    return targetDate;
-  }
-  
-  export function computeEaster(year: number): Date {
+  export function computeEaster(year: number): DateWithoutTime {
     if (year < 1876) {
 	    throw new Error("Invalid before 1876")
     }
@@ -34,19 +28,18 @@ namespace ChristianCalendar {
     let n = Math.floor((h + l - 7 * m + 114) / 31);
     let p = (h + l - 7 * m + 114) % 31;
   
-    // Month is zero-indexed in JavaScript Date object, so subtract 1
-    let month = n - 1;
+    let month = n;
     let day = p + 1;
   
-    return new Date(Date.UTC(year, month, day));
+    return new DateWithoutTime(year, month, day);
   }
   
-  export function computeAdvent(year: number): Date {
-    const dec1st = new Date(year, 11, 1);
+  export function computeAdvent(year: number): DateWithoutTime {
+    const dec1st = new DateWithoutTime(year, 12, 1);
     const dayOfWeek = dec1st.getDay(); // get the day of the week for December 1st
     const daysUntilThursday = (4 - dayOfWeek + 7) % 7; // calculate the number of days until Thursday (4)
-    const firstThursday = new Date(Date.UTC(year, 11, 1 + daysUntilThursday));
-    return addDays(firstThursday,-4);
+    const firstThursday = new DateWithoutTime(year, 12, 1 + daysUntilThursday);
+    return firstThursday.addDays(-4);
   }
   
   
@@ -106,45 +99,31 @@ namespace ChristianCalendar {
 
   }
 
-  function dayOfYear(date: Date): number {
-    // First, calculate the number of days that have passed in the current year.
-    const yearStart = new Date(date.getFullYear(), 0, 0);
-    const diff = date.getTime() - yearStart.getTime();
-    const oneDay = 1000 * 60 * 60 * 24;
-    const dayOfYear = Math.floor(diff / oneDay);
-  
-    // Return the day of the year.
-    return dayOfYear;
-  }
-  
   export class Season {
     name: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: DateWithoutTime;
+    endDate: DateWithoutTime;
     colors: Color[];
     alternateColors: Color[];
     year: Year;
     id: number;
   	
-    constructor(name: string, startDate: Date, endDate: Date, colors: Color[], alternateColors: Color[], year: Year) {
-      if (startDate.getUTCHours() !==0 ) throw new Error(`Start date ${startDate} for ${name} has hours`);
-      if (startDate.getUTCMinutes() !==0 ) throw new Error("Start date has minutes");
-      if (startDate.getUTCSeconds() !==0 ) throw new Error("Start date has seconds");
+    constructor(name: string, startDate: DateWithoutTime, endDate: DateWithoutTime, colors: Color[], alternateColors: Color[], year: Year) {
       this.name = name;
       this.startDate = startDate;
       this.endDate = endDate;
       this.colors = colors;
       this.alternateColors = alternateColors;
       this.year = year;
-      this.id = year.year * 400 + dayOfYear(startDate);
+      this.id = year.year * 400 + startDate.dayOfYear;
     }
   }
   
   export class Year {
     public year: number;
     public rclYear: string;
-    public advent: Date;
-    public easter: Date;
+    public advent: DateWithoutTime;
+    public easter: DateWithoutTime;
     public seasons: Season[];
   
     constructor(year: number) {
@@ -158,44 +137,44 @@ namespace ChristianCalendar {
       // Following dates are necessary to complete calculation, and it's easier to
       // read with the names than the dates, but they are not worthy of 
       // inclusion in exported values.
-      const christmas = new Date(Date.UTC(year-1, 11, 25));
-      const allSaints = new Date(Date.UTC(year, 10, 1));
+      const christmas = new DateWithoutTime(year-1, 12, 25);
+      const allSaints = new DateWithoutTime(year, 11, 1);
       const nextAdvent = computeAdvent(year);
   
       // adding seasons backward to get the end dates automatically
       this.seasons = [];
-      this._addSeason("Christ the King",addDays(nextAdvent,-7),    ["white","gold"],["white","yellow"], addDays(nextAdvent,-1));
-      this._addSeason("ordinary time",  addDays(allSaints,1),      ["green"],["light green","bronze","aqua","olive"]);
-      this._addSeason("All Saints Day", allSaints,                 ["red"],["white","gold"]);
-      this._addSeason("ordinary time",  addDays(easter, 9*7),  ["green"],["light green","bronze","aqua","olive"]);
-      this._addSeason("Trinity Sunday", addDays(easter, 8*7),  ["white","gold"],["red"]);
-      this._addSeason("Pentecost",      addDays(easter, 7*7),  ["red"],["red","gold"]);
-      this._addSeason("Eastertide",     addDays(easter, 40),    ["white","gold"],["red"]);
-      this._addSeason("Ascension Day",  addDays(easter, 39),   ["white","gold"],["white","yellow"]);
-      this._addSeason("Eastertide",     addDays(easter, 7),    ["white","gold"],["red"]);
-      this._addSeason("Easter",         easter,                ["white","gold"],["white","yellow"]);
-      this._addSeason("Holy Saturday",  addDays(easter, -1) ,  [],[]);
-      this._addSeason("Good Friday",    addDays(easter, -2) ,  ["purple","black"],[]);
-      this._addSeason("Maundy Thursday",addDays(easter, -3) ,  ["purple"],["red"]);
-      this._addSeason("Palm Sunday",    addDays(easter, -7) ,  ["purple"],["red"]);
-      this._addSeason("Lent",           addDays(easter, -14),  ["purple"],["red violet"]);
-      this._addSeason("Laetare Sunday", addDays(easter, -21),  ["rose"], ["rose"]);
-      this._addSeason("Lent",           addDays(easter, -45),  ["purple"],["red violet"]);
-      this._addSeason("Ash Wednesday",  addDays(easter, -46),  ["purple"],["grey"]);
-      this._addSeason("Transfiguration",addDays(easter, -49),  ["white","gold"],["white","yellow"]);
-      this._addSeason("ordinary time"  ,addDays(christmas, 13),["green"],["light green"]);
-      this._addSeason("Epiphany"       ,addDays(christmas, 12),["white","gold"],["white","yellow"]);
-      this._addSeason("Christmas"      ,christmas,             ["white","gold"],["white","yellow"]);
-      this._addSeason("Christmas Eve"  ,addDays(christmas, -1),["dark blue","blue"],["blue violet","purple"]);
-      this._addSeason("Advent 4"       ,addDays(advent, 3*7),  ["dark blue","blue"],["blue violet","purple"]);
-      this._addSeason("Advent 3",       addDays(advent, 2*7),  ["pink"],["rose"]);
+      this._addSeason("Christ the King",nextAdvent.addDays(-7), ["white","gold"],["white","yellow"], nextAdvent.addDays(-1));
+      this._addSeason("ordinary time",  allSaints.addDays(1), ["green"],["light green","bronze","aqua","olive"]);
+      this._addSeason("All Saints Day", allSaints,            ["red"],["white","gold"]);
+      this._addSeason("ordinary time",  easter.addDays(9*7),  ["green"],["light green","bronze","aqua","olive"]);
+      this._addSeason("Trinity Sunday", easter.addDays(8*7),  ["white","gold"],["red"]);
+      this._addSeason("Pentecost",      easter.addDays(7*7),  ["red"],["red","gold"]);
+      this._addSeason("Eastertide",     easter.addDays(40),   ["white","gold"],["red"]);
+      this._addSeason("Ascension Day",  easter.addDays(39),   ["white","gold"],["white","yellow"]);
+      this._addSeason("Eastertide",     easter.addDays(7),    ["white","gold"],["red"]);
+      this._addSeason("Easter",         easter,               ["white","gold"],["white","yellow"]);
+      this._addSeason("Holy Saturday",  easter.addDays(-1) ,  [],[]);
+      this._addSeason("Good Friday",    easter.addDays(-2) ,  ["purple","black"],[]);
+      this._addSeason("Maundy Thursday",easter.addDays(-3) ,  ["purple"],["red"]);
+      this._addSeason("Palm Sunday",    easter.addDays(-7) ,  ["purple"],["red"]);
+      this._addSeason("Lent",           easter.addDays(-14),  ["purple"],["red violet"]);
+      this._addSeason("Laetare Sunday", easter.addDays(-21),  ["rose"], ["rose"]);
+      this._addSeason("Lent",           easter.addDays(-45),  ["purple"],["red violet"]);
+      this._addSeason("Ash Wednesday",  easter.addDays(-46),  ["purple"],["grey"]);
+      this._addSeason("Transfiguration",easter.addDays(-49),  ["white","gold"],["white","yellow"]);
+      this._addSeason("ordinary time"  ,christmas.addDays(13),["green"],["light green"]);
+      this._addSeason("Epiphany"       ,christmas.addDays(12),["white","gold"],["white","yellow"]);
+      this._addSeason("Christmas"      ,christmas,            ["white","gold"],["white","yellow"]);
+      this._addSeason("Christmas Eve"  ,christmas.addDays(-1),["dark blue","blue"],["blue violet","purple"]);
+      this._addSeason("Advent 4"       ,advent.addDays(3*7),  ["dark blue","blue"],["blue violet","purple"]);
+      this._addSeason("Advent 3",       advent.addDays(2*7),  ["pink"],["rose"]);
       this._addSeason("Advent 1-2",     advent,               ["dark blue","blue"],["blue violet","purple"]);
       this.seasons.reverse();
     }
    
   
-    private _addSeason(name: string, startDate: Date, colors: string[], alternateColors: string[], endDate: Date|null = null) {
-      const realEndDate = endDate ? endDate : addDays(this.seasons!.at(-1)!.startDate,-1);
+    private _addSeason(name: string, startDate: DateWithoutTime, colors: string[], alternateColors: string[], endDate: DateWithoutTime|null = null) {
+      const realEndDate = endDate ? endDate : this.seasons!.at(-1)!.startDate.addDays(-1);
       const season = new Season(
         name, startDate, realEndDate, 
   	    colors.map(function(color) { return colorize(color) }),
@@ -204,7 +183,7 @@ namespace ChristianCalendar {
     }
   }
   
-  export function getSeason(date: Date): Season {
+  export function getSeason(date: Date | DateWithoutTime): Season {
     const seasons: Season[] = (new Year(yearFor(date))).seasons
     let start = 0;
     let end = seasons.length - 1;
@@ -225,8 +204,8 @@ namespace ChristianCalendar {
     return seasons[index];
   }
   
-  export function yearFor(date: Date): number {
-     let currentYear = date.getFullYear();
+  export function yearFor(date: Date | DateWithoutTime): number {
+     let currentYear = (date instanceof Date ? new DateWithoutTime((date as Date)) : date).year;
      let advent = computeAdvent(currentYear);
      return (advent.getTime() <= date.getTime() ? 1 : 0) + currentYear;
   }

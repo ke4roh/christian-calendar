@@ -1,14 +1,14 @@
 import ChristianCalendar from '../src/libs/christian-calendar';
+import DateWithoutTime from '../src/libs/dateWithoutTime';
 
-function idate(dateString: string): Date {
-   const [year, month, day] = dateString.split("-");
-   return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
+function idate(dateString: string): DateWithoutTime {
+   return new DateWithoutTime(dateString);
 }
 
 type SeasonTestCase = {
   name: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: DateWithoutTime;
+  endDate: DateWithoutTime;
   colors: ChristianCalendar.Color[];
   alternateColors: ChristianCalendar.Color[];
 }
@@ -68,10 +68,11 @@ describe('Year class', () => {
   
   test.each(cases)("The season $name for $startDate should be correctly initialized", (expected) => {
       const season = ChristianCalendar.getSeason(expected.startDate);
-      expect(season.name).toEqual(expected.name);
-      expect(season.startDate).toEqual(expected.startDate);
-      expect(season.endDate).toEqual(expected.endDate);
-      expect(season.colors).toEqual(expected.colors);
-      expect(season.alternateColors).toEqual(expected.alternateColors);
+      //expect(season.name).toEqual(expected.name);
+      expect(season).toMatchObject(expected);
+      //expect(season.startDate).toEqual(expected.startDate);
+      //expect(season.endDate).toEqual(expected.endDate);
+      //expect(season.colors).toEqual(expected.colors);
+      //expect(season.alternateColors).toEqual(expected.alternateColors);
   }); // each seasaon
 }); // year

@@ -1,34 +1,25 @@
 import React from 'react';
+import Color from './Color';
 
 function Season({ season }) {
+  const startDate = season.startDate.toString()
+  const endDate = season.endDate.toString()
+  const date = startDate === endDate ? startDate : `${startDate} - ${endDate}`
   return (
-    <div>
-      <h3>{season.name}</h3>
-      <p>Start date: {season.startDate.toString()}</p>
-      <p>End date: {season.endDate.toString()}</p>
-      <div>
-        {season.colors.map((color) => (
-          <div
-            key={color.name}
-            style={{ backgroundColor: color.rgb, width: 50, height: 50 }}
-          >
-            <span>{color.name}</span>
-          </div>
+    <tr>
+      <td>
+        {season.colors.map((color, index) => (
+            <Color key={`${startDate}-${color}-${index}`} color={color} />
         ))}
-      </div>
-      {season.alternateColors && (
-        <div>
-          {season.alternateColors.map((color) => (
-            <div
-              key={color.name}
-              style={{ backgroundColor: color.rgb, width: 50, height: 50 }}
-            >
-              <span>{color.name}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+      </td>
+      <td>{date}</td>
+      <td>{season.name}</td>
+      <td>
+        {season.alternateColors.map((color, index) => (
+            <Color key={`${startDate}-alt-${color}-${index}`} color={color} />
+        ))}
+      </td>
+    </tr>
   );
 }
 

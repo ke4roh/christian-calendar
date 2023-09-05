@@ -75,6 +75,10 @@ export default class DateWithoutTime {
     return new DateWithoutTime(newDate.toISOString().substring(0, 10));
   }
 
+  public toLocaleDateString(locale?: string | string[], options?: Intl.DateTimeFormatOptions): string {
+    return this.date.toDate().toLocaleDateString(locale, options);
+  }
+
   public equals(other: DateWithoutTime): boolean {
     return this.getTime() === other.getTime();
   }

@@ -9,8 +9,8 @@ function Year({ year }) {
         <thead>
         <tr>
           <th>primary colors</th>
-          <th>dates</th>
           <th>season</th>
+          <th>dates</th>
           <th>alternate colors</th>
         </tr>
         </thead>

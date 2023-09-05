@@ -108,7 +108,21 @@ describe("DateWithoutTime", () => {
         expect(myDate.toString()).toBe("2023-05-05");
       });
     });
-  
+
+    describe("toLocaleDateString", () => {
+      it("should return the date in the local time zone", () => {
+        const myDate = new DateWithoutTime("2023-05-05");
+        expect(myDate.toLocaleDateString("en-US")).toBe("5/5/2023");
+      });
+
+      it("should return the date in the given format", () => {
+        const options: Intl.DateTimeFormatOptions = { month: "short", day: "numeric"}
+        const myDate = new DateWithoutTime("2023-10-05");
+        expect(myDate.toLocaleDateString("en-US", options)).toBe("Oct 5");
+      });
+
+    });
+
     describe("getDay", () => {
       it("should return 0 for Sunday", () => {
         const myDate = new DateWithoutTime("2023-05-07"); // May 7, 2023 is a Sunday

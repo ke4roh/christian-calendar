@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import App from './App';
 import 'react-tooltip/dist/react-tooltip.css'
 import { BrowserRouter as Router } from 'react-router-dom';

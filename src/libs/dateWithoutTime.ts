@@ -76,7 +76,8 @@ export default class DateWithoutTime {
   }
 
   public toLocaleDateString(locale?: string | string[], options?: Intl.DateTimeFormatOptions): string {
-    return this.date.toDate().toLocaleDateString(locale, options);
+    let _date = new Date(this.date.year(), this.date.month(), this.date.date())
+    return _date.toLocaleDateString(locale, options);
   }
 
   public equals(other: DateWithoutTime): boolean {

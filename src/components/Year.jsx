@@ -4,7 +4,13 @@ import Season from './Season';
 function Year({ year }) {
   return (
     <div>
-      <h2>{year.year - 1}—{year.year}</h2>
+      <h2>Colors of the Church Year<br/>
+      and Seasonal Dates, {year.year}</h2>
+      <p>The Dates below are for the Church Year {year.year},
+        Year {year.rclYear} of the Revised Common Lectionary and
+        Year {year.dailyOfficeYear} of the Daily Office of the Book of
+        Common Prayer, beginning with
+        the First Sunday of Advent, {year.year - 1}.</p>
       <table border="1px black">
         <thead>
         <tr>

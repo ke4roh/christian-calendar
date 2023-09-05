@@ -15,3 +15,14 @@ describe('RCLYear', () => {
   });
 });
 
+describe('Daily Office year', () => {
+	test('Daily Office year for 2021 should be 1', () => {
+		let cal = new ChristianCalendar.Year(2021);
+		expect(cal.dailyOfficeYear).toBe("1");
+	});
+	test('Daily Office year for 2022 should be 2', () => {
+		let cal = new ChristianCalendar.Year(2022);
+		expect(cal.dailyOfficeYear).toBe("2");
+	});
+});
+

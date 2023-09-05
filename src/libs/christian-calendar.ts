@@ -122,6 +122,7 @@ namespace ChristianCalendar {
   export class Year {
     public year: number;
     public rclYear: string;
+    public dailyOfficeYear: string;
     public advent: DateWithoutTime;
     public easter: DateWithoutTime;
     public seasons: Season[];
@@ -131,6 +132,7 @@ namespace ChristianCalendar {
       // This number corresponds to the year in which the Christian year begins.
       this.year = year;
       this.rclYear = rclYear(year);
+      this.dailyOfficeYear = (2 - (year % 2)).toString();
       const advent = this.advent = computeAdvent(year-1);
       const easter = this.easter = computeEaster(year);
   	  

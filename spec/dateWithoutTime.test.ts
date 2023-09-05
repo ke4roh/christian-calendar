@@ -44,7 +44,7 @@ describe("DateWithoutTime", () => {
     test(`month method returns the month in the ${timeZone} time zone`, () => {
       const date = new DateWithoutTime("2023-05-31");
   
-      expect(date.month).toBe(5);
+      expect(date.month).toBe(4);
     });
   
     test(`day method returns the day in the ${timeZone} time zone`, () => {
@@ -77,6 +77,18 @@ describe("DateWithoutTime", () => {
       const newDate = date.addDays(10);
       expect(newDate.toISOString()).toBe("2023-05-15");
     });
+
+    test("Constructing with numbers is same as with string", () => {
+      const date1 = new DateWithoutTime("2023-05-10");
+      const date2 = new DateWithoutTime(2023, 4, 10);
+      expect(date1.toISOString()).toBe(date2.toISOString());
+    });
+
+    test("Constructing with a Date object is same as with string", () => {
+      const date1 = new DateWithoutTime("2023-05-10");
+      const date2 = new DateWithoutTime(new Date("2023/05/10")); // slashes make local time
+      expect(date1.toISOString()).toBe(date2.toISOString());
+    });
     
     test("Adding a negative number of days should return the expected date", () => {
       const date = new DateWithoutTime("2023-05-15");
@@ -92,7 +104,7 @@ describe("DateWithoutTime", () => {
   
     describe("constructor", () => {
       it("should create a DateWithoutTime object with the given year, month, and day", () => {
-        const myDate = new DateWithoutTime(2023, 5, 5);
+        const myDate = new DateWithoutTime(2023, 4, 5);
         expect(myDate.toString()).toBe("2023-05-05");
       });
     });

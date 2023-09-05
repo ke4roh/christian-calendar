@@ -31,14 +31,14 @@ namespace ChristianCalendar {
     let month = n;
     let day = p + 1;
   
-    return new DateWithoutTime(year, month, day);
+    return new DateWithoutTime(year, month-1, day);
   }
   
   export function computeAdvent(year: number): DateWithoutTime {
-    const dec1st = new DateWithoutTime(year, 12, 1);
+    const dec1st = new DateWithoutTime(year, 11, 1);
     const dayOfWeek = dec1st.getDay(); // get the day of the week for December 1st
     const daysUntilThursday = (4 - dayOfWeek + 7) % 7; // calculate the number of days until Thursday (4)
-    const firstThursday = new DateWithoutTime(year, 12, 1 + daysUntilThursday);
+    const firstThursday = new DateWithoutTime(year, 11, 1 + daysUntilThursday);
     return firstThursday.addDays(-4);
   }
   
@@ -137,8 +137,8 @@ namespace ChristianCalendar {
       // Following dates are necessary to complete calculation, and it's easier to
       // read with the names than the dates, but they are not worthy of 
       // inclusion in exported values.
-      const christmas = new DateWithoutTime(year-1, 12, 25);
-      const allSaints = new DateWithoutTime(year, 11, 1);
+      const christmas = new DateWithoutTime(year-1, 11, 25);
+      const allSaints = new DateWithoutTime(year, 10, 1);
       const nextAdvent = computeAdvent(year);
   
       // adding seasons backward to get the end dates automatically
@@ -205,9 +205,9 @@ namespace ChristianCalendar {
   }
   
   export function yearFor(date: Date | DateWithoutTime): number {
-     let currentYear = (date instanceof Date ? new DateWithoutTime((date as Date)) : date).year;
-     let advent = computeAdvent(currentYear);
-     return (advent.getTime() <= date.getTime() ? 1 : 0) + currentYear;
+     let _date = date instanceof Date ? new DateWithoutTime((date as Date)) : date;
+     let advent = computeAdvent(_date.year);
+     return (advent.getTime() <= _date.getTime() ? 1 : 0) + _date.year;
   }
 }
 

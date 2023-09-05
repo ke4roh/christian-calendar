@@ -10,6 +10,7 @@ describe("yearFor", () => {
 	  [new DateWithoutTime("2020-11-28"), 2020],
 	  [new DateWithoutTime("2023-05-07"), 2023],
 	  [new DateWithoutTime("2023-09-04"), 2023],
+		[new Date("2023/09/04"), 2023]
   ])("The year number for %p should be %i", (date, expectedYear) => {
     expect(ChristianCalendar.yearFor(date)).toEqual(expectedYear);
   });

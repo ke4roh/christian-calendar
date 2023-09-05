@@ -12,32 +12,25 @@ export default class DateWithoutTime {
     let _month = 0;
     let _day = 0;
     try {
-    if (arg1 instanceof Date) {
-      _year = arg1.getFullYear();
-      _month = arg1.getMonth() + 1;
-      _day = arg1.getDate();
-    } else if (typeof arg1 === 'string') {
-      [_year, _month, _day] = arg1.split('T')[0].split('-').map(Number);
-    } else {
-      _year = arg1 || new Date().getFullYear();
-      _month = arg2 == null ? new Date().getMonth() + 1 : arg2;
-      _day = arg3 == null ? new Date().getDate() : arg3;
-    }
-    this.date = moment.utc(new Date(Date.UTC(_year, _month - 1, _day))).startOf("day");
+      if (arg1 instanceof Date) {
+        _year = arg1.getFullYear();
+        _month = arg1.getMonth();
+        _day = arg1.getDate();
+      } else if (typeof arg1 === 'string') {
+        [_year, _month, _day] = arg1.split('T')[0].split('-').map(Number);
+        _month--; // Moment uses 0-based index for months
+      } else {
+        _year = arg1 || new Date().getFullYear();
+        _month = arg2 == null ? new Date().getMonth() : arg2;
+        _day = arg3 == null ? new Date().getDate() : arg3;
+      }
+      this.date = moment.utc({ year: _year, month: _month, day: _day}).startOf("day");
     } catch (error) {
-	if (error instanceof RangeError) {
-	   console.log(`${error.message}: ${_year}-${_month}-${_day}`)
-	}
+        if (error instanceof RangeError) {
+           console.log(`${error.message}: ${_year}-${_month + 1}-${_day}`)
+        }
         throw error;
     }
-  }
-
-  static fromDate(date: Date): DateWithoutTime {
-    return new DateWithoutTime(date);
-  }
-
-  static fromISOString(isoString: string): DateWithoutTime {
-    return new DateWithoutTime(isoString);
   }
 
   toString(): string {
@@ -49,7 +42,7 @@ export default class DateWithoutTime {
   }
 
   get month(): number {
-    return this.date.utc().month() + 1; // Moment uses 0-based index for months
+    return this.date.utc().month(); // Moment uses 0-based index for months
   }
 
   get day(): number {

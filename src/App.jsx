@@ -17,7 +17,10 @@ function App() {
     if (yearParam && !isNaN(yearParam)) {
       effectiveYear = parseInt(yearParam, 10);
     } else {
-      effectiveYear = ChristianCalendar.yearFor(new Date());
+      let date = new Date();
+      console.log("Date Object:", date); // Debug log 1.5
+      effectiveYear = ChristianCalendar.yearFor(date);
+      console.log("Effective Year:", effectiveYear); // Debug log 1.75
     }
 
     console.log("Effective Year:", effectiveYear); // Debug log 2

@@ -10,10 +10,6 @@
     "build": "react-scripts build --entry ./src/index.tsx",
     "eject": "react-scripts eject"
   },
-  "build": {
-    "homepage": "%REACT_APP_HOMEPAGE%",
-    "publicUrl": "%REACT_APP_HOMEPAGE%"
-  },
   "eslintConfig": {
     "extends": [
       "react-app",

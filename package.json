@@ -10,6 +10,7 @@
     "build": "react-scripts build --entry ./src/index.tsx",
     "eject": "react-scripts eject"
   },
+  "homepage": "./",
   "eslintConfig": {
     "extends": [
       "react-app",

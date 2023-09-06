@@ -15,7 +15,7 @@ function App() {
 
     let effectiveYear;
     if (yearParam && !isNaN(yearParam)) {
-      effectiveYear = parseInt(yearParam, 10);
+      effectiveYear = Math.max(parseInt(yearParam), 1876);
     } else {
       let date = new Date();
       console.log("Date Object:", date); // Debug log 1.5

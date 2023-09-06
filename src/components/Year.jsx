@@ -4,8 +4,8 @@ import Season from './Season';
 function Year({ year }) {
   return (
     <div>
-      <h2>Colors of the Church Year<br/>
-      and Seasonal Dates, {year.year}</h2>
+      <h1>Colors of the Church Year</h1>
+      <h2>and Seasonal Dates, {year.year}</h2>
       <p>The Dates below are for the Church Year {year.year},
         Year {year.rclYear} of the Revised Common Lectionary and
         Year {year.dailyOfficeYear} of the Daily Office of the Book of
@@ -26,6 +26,8 @@ function Year({ year }) {
       ))}
         </tbody>
       </table>
+      Many thanks to Dennis Bratcher for his <a href="http://www.crivoice.org/colorsof.html">Colors of the Church Year</a> page
+      which served as one of several inputs to this effort.
     </div>
   );
 }

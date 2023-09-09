@@ -2,15 +2,16 @@
 import DateWithoutTime from "./dateWithoutTime";
 
 // Library for computing the Christian calendar seasons and colors
-// 
-// Notes:
-// - All the dates are worked in GMT.
-// - Season end dates are a convenience, at the start of the (GMT) day 
-//   ending the season
 namespace ChristianCalendar {
+  const earlyEasters = "BVG8RJ4OFSKCVG8SC4O9SK5PG8LDWO9TK5PH1LDXH9TE5PAULDQI9ME6PAUM6QI3MEYJAUF7QB3NERJBUF7RBVN8RJ4OF0KCVG8SK5PH1LDXH9TE5PAUL6QI9ME6PAUM6QI3MEYJAUF7QB3NERJBNF7KBVN8RJ4OF0KCVG8SC4O9SKCPG8SD4O9TK5PH1LDXH9TE5PH2MERJANF7QBVN7RJ4NF0KBVG8RC4OFSKCVG8SC4O9SK5PG1LDWH9TK5PH1LDXH9TE5PAUL6QI9ME6"
   export function computeEaster(year: number): DateWithoutTime {
+    if (year < 1600) {
+      throw new Error("Invalid before 1600")
+    }
     if (year < 1876) {
-	    throw new Error("Invalid before 1876")
+      const offsetCode = earlyEasters.charCodeAt(year - 1600);
+      let offset = offsetCode - ((offsetCode < 65) ? 48 : 55);
+      return new DateWithoutTime(year, 2, 22).addDays(offset);
     }
   
     let a = year % 19;

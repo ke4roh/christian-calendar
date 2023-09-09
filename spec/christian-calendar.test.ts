@@ -97,24 +97,21 @@ describe("getSeason", () => {
 
 describe('computeEaster', () => {
   it('should return the correct date of Easter for a given year', () => {
-    const easterDates = {
-      2021: new DateWithoutTime(2021, 3, 4), // April 4, 2021
-      2022: new DateWithoutTime(2022, 3, 17), // April 17, 2022
-      2023: new DateWithoutTime(2023, 3, 9), // April 16th, 2023
-      2024: new DateWithoutTime(2024, 2, 31), // March 31st, 2024
-      2025: new DateWithoutTime(2025, 3, 20), // April 20th, 2025
-      2026: new DateWithoutTime(2026, 3, 5), // April 5th, 2026
-      2027: new DateWithoutTime(2027, 2, 28), // March 28th, 2027
-    };
+    const easterDates = [
+        "1600-04-02", "1601-04-22", "1602-04-07", "1603-03-30", "1604-04-18", "1605-04-10",
+        "1874-04-05", "1875-03-28", "1876-04-16", "1877-04-01", "1878-04-21", "1879-04-13",
+        "2021-04-04", "2022-04-17", "2023-04-09", "2024-03-31", "2025-04-20", "2026-04-05",
+        "2027-03-28"
+    ];
 
-    for (const [year, expectedDate] of Object.entries(easterDates)) {
-      const date = computeEaster(Number(year));
-      expect(date).toEqual(expectedDate);
+    for (const dateString of easterDates) {
+      const date = new DateWithoutTime(dateString);
+      expect(computeEaster(date.year)).toEqual(date);
     }
   });
 
   it('should throw an exception for a year less than 1900', () => {
-    expect(() => { computeEaster(1800); }).toThrow("Invalid before 1876");
+    expect(() => { computeEaster(1599); }).toThrow("Invalid before 1600");
   });
 });
 

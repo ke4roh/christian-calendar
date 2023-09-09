@@ -80,20 +80,5 @@ export default class DateWithoutTime {
     return _date.toLocaleDateString(locale, options);
   }
 
-  public equals(other: DateWithoutTime): boolean {
-    return this.getTime() === other.getTime();
-  }
-
-  public compareTo(other: DateWithoutTime): number {
-    const thisTime = this.getTime();
-    const otherTime = other.getTime();
-    if (thisTime < otherTime) {
-      return -1;
-    } else if (thisTime > otherTime) {
-      return 1;
-    } else {
-      return 0;
-    }
-  }
 }
 

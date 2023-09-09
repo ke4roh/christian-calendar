@@ -167,8 +167,7 @@ namespace ChristianCalendar {
       this._addSeason("ordinary time"  ,christmas.addDays(13),["green"],["light green"]);
       this._addSeason("Epiphany"       ,christmas.addDays(12),["white","gold"],["white","yellow"]);
       this._addSeason("Christmas"      ,christmas,            ["white","gold"],["white","yellow"]);
-      this._addSeason("Christmas Eve"  ,christmas.addDays(-1),["dark blue","blue"],["blue violet","purple"]);
-      this._addSeason("Advent 4"       ,advent.addDays(3*7),  ["dark blue","blue"],["blue violet","purple"]);
+      this._addSeason("Advent 4"       ,advent.addDays(3*7),  ["dark blue","blue"],["blue violet","purple"], christmas.addDays(-1));
       this._addSeason("Advent 3",       advent.addDays(2*7),  ["pink"],["rose"]);
       this._addSeason("Advent 1-2",     advent,               ["dark blue","blue"],["blue violet","purple"]);
       this.seasons.reverse();
@@ -176,7 +175,15 @@ namespace ChristianCalendar {
    
   
     private _addSeason(name: string, startDate: DateWithoutTime, colors: string[], alternateColors: string[], endDate: DateWithoutTime|null = null) {
-      const realEndDate = endDate ? endDate : this.seasons!.at(-1)!.startDate.addDays(-1);
+      let realEndDate = endDate;
+      if (!realEndDate) {
+        const tentativeEndDate = this.seasons!.at(-1)!.startDate.addDays(-1);
+        if (tentativeEndDate.getTime() < startDate.getTime()) {
+          realEndDate = startDate;
+        } else {
+          realEndDate = tentativeEndDate;
+        }
+      }
       const season = new Season(
         name, startDate, realEndDate, 
   	    colors.map(function(color) { return colorize(color) }),
@@ -184,25 +191,19 @@ namespace ChristianCalendar {
       this.seasons.push(season);
     }
   }
-  
+
+  // This is a convenience function to get the season for a given date.
+  // Some dates include multiple seasons.  This function returns the
+  // first season that includes the date.
   export function getSeason(date: Date | DateWithoutTime): Season {
     const seasons: Season[] = (new Year(yearFor(date))).seasons
-    let start = 0;
-    let end = seasons.length - 1;
     let index = -1;
-  
-    while (start <= end) {
-      const mid = Math.floor((start + end) / 2);
-      const season = seasons[mid];
-  
-      if (season.startDate <= date) {
-        index = mid;
-        start = mid + 1;
-      } else {
-        end = mid - 1;
-      }
+
+    // linear search for the first season that includes the date
+    while (index < seasons.length - 1 && seasons[index + 1].startDate.getTime() <= date.getTime()) {
+      index++;
     }
-  
+
     return seasons[index];
   }
   

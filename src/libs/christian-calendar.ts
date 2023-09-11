@@ -1,49 +1,22 @@
 /// <reference types="node" />
 import DateWithoutTime from "./dateWithoutTime";
+import Easter from "./easter";
+
 
 // Library for computing the Christian calendar seasons and colors
 namespace ChristianCalendar {
-  const earlyEasters = "BVG8RJ4OFSKCVG8SC4O9SK5PG8LDWO9TK5PH1LDXH9TE5PAULDQI9ME6PAUM6QI3MEYJAUF7QB3NERJBUF7RBVN8RJ4OF0KCVG8SK5PH1LDXH9TE5PAUL6QI9ME6PAUM6QI3MEYJAUF7QB3NERJBNF7KBVN8RJ4OF0KCVG8SC4O9SKCPG8SD4O9TK5PH1LDXH9TE5PH2MERJANF7QBVN7RJ4NF0KBVG8RC4OFSKCVG8SC4O9SK5PG1LDWH9TK5PH1LDXH9TE5PAUL6QI9ME6"
-  export function computeEaster(year: number): DateWithoutTime {
-    if (year < 1600) {
-      throw new Error("Invalid before 1600")
-    }
-    if (year < 1876) {
-      const offsetCode = earlyEasters.charCodeAt(year - 1600);
-      let offset = offsetCode - ((offsetCode < 65) ? 48 : 55);
-      return new DateWithoutTime(year, 2, 22).addDays(offset);
-    }
-  
-    let a = year % 19;
-    let b = Math.floor(year / 100);
-    let c = year % 100;
-    let d = Math.floor(b / 4);
-    let e = b % 4;
-    let f = Math.floor((b + 8) / 25);
-    let g = Math.floor((b - f + 1) / 3);
-    let h = (19 * a + b - d - g + 15) % 30;
-    let i = Math.floor(c / 4);
-    let k = c % 4;
-    let l = (32 + 2 * e + 2 * i - h - k) % 7;
-    let m = Math.floor((a + 11 * h + 22 * l) / 451);
-    let n = Math.floor((h + l - 7 * m + 114) / 31);
-    let p = (h + l - 7 * m + 114) % 31;
-  
-    let month = n;
-    let day = p + 1;
-  
-    return new DateWithoutTime(year, month-1, day);
-  }
-  
-  export function computeAdvent(year: number): DateWithoutTime {
-    const dec1st = new DateWithoutTime(year, 11, 1);
+
+
+  // Compute the start of advent for a given calendar year
+  export function computeAdvent(calendarYear: number): DateWithoutTime {
+    const dec1st = new DateWithoutTime(calendarYear, 11, 1);
     const dayOfWeek = dec1st.getDay(); // get the day of the week for December 1st
     const daysUntilThursday = (4 - dayOfWeek + 7) % 7; // calculate the number of days until Thursday (4)
-    const firstThursday = new DateWithoutTime(year, 11, 1 + daysUntilThursday);
+    const firstThursday = new DateWithoutTime(calendarYear, 11, 1 + daysUntilThursday);
     return firstThursday.addDays(-4);
   }
   
-  
+  // Identify the year of the Revised Common Lectionary cycle for a given church year
   export function rclYear(year: number): string {
       const rclStartYear = 2020;
       const rclYears = ["A", "B", "C"];
@@ -51,7 +24,7 @@ namespace ChristianCalendar {
       const index = diff >= 0 ? diff % 3 : ((diff % 3) + 3) % 3;
       return rclYears[index];
   }
-  
+
   export class Color {
     name: string;
     rgb: string;
@@ -91,7 +64,8 @@ namespace ChristianCalendar {
   _addColor('yellow', '#FFFF00');
   _addColor('white', '#FFFFFF');
   palette.set("grey", colorize("gray"));
-  
+
+  // Convenience function to yield a color from a string
   export function colorize(name: string): Color {
     const color = palette.get(_cleanColorName(name));
     if (!color) 
@@ -119,7 +93,9 @@ namespace ChristianCalendar {
       this.id = year.year * 400 + startDate.dayOfYear;
     }
   }
-  
+
+  // The Year class represents a single year in the Christian calendar.
+  // It includes the seasons, their names, dates, and colors.
   export class Year {
     public year: number;
     public rclYear: string;
@@ -135,7 +111,7 @@ namespace ChristianCalendar {
       this.rclYear = rclYear(year);
       this.dailyOfficeYear = (2 - (year % 2)).toString();
       const advent = this.advent = computeAdvent(year-1);
-      const easter = this.easter = computeEaster(year);
+      const easter = this.easter = Easter.gregorianEaster(year);
   	  
       // Following dates are necessary to complete calculation, and it's easier to
       // read with the names than the dates, but they are not worthy of 

@@ -1,6 +1,5 @@
 import ChristianCalendar from '../src/libs/christian-calendar';
 import DateWithoutTime from '../src/libs/dateWithoutTime';
-const computeEaster = ChristianCalendar.computeEaster;
 
 function idate(dateString: string): DateWithoutTime {
    return new DateWithoutTime(dateString);
@@ -94,26 +93,6 @@ describe("getSeason", () => {
   });
 });
 
-
-describe('computeEaster', () => {
-  it('should return the correct date of Easter for a given year', () => {
-    const easterDates = [
-        "1600-04-02", "1601-04-22", "1602-04-07", "1603-03-30", "1604-04-18", "1605-04-10",
-        "1874-04-05", "1875-03-28", "1876-04-16", "1877-04-01", "1878-04-21", "1879-04-13",
-        "2021-04-04", "2022-04-17", "2023-04-09", "2024-03-31", "2025-04-20", "2026-04-05",
-        "2027-03-28"
-    ];
-
-    for (const dateString of easterDates) {
-      const date = new DateWithoutTime(dateString);
-      expect(computeEaster(date.year)).toEqual(date);
-    }
-  });
-
-  it('should throw an exception for a year less than 1900', () => {
-    expect(() => { computeEaster(1599); }).toThrow("Invalid before 1600");
-  });
-});
 
 describe("computeAdvent", () => {
   test.each([

@@ -3,7 +3,8 @@ import Season from './Season';
 
 function Year({ year }) {
   return (
-    <div>
+    <div className={"year-container"}>
+      <div className={"year-metadata"}>
       <h1>Colors of the Church Year</h1>
       <h2>and Seasonal Dates, {year.year}</h2>
       <p>The Dates below are for the Church Year {year.year},
@@ -11,7 +12,7 @@ function Year({ year }) {
         Year {year.dailyOfficeYear} of the Daily Office of the Book of
         Common Prayer, beginning with
         the First Sunday of Advent, {year.year - 1}.</p>
-      <table border="1px black">
+      <table border="1px black" className={"seasons-table"}>
         <thead>
         <tr>
           <th>primary colors</th>
@@ -28,6 +29,7 @@ function Year({ year }) {
       </table>
       Many thanks to Dennis Bratcher for his <a href="http://www.crivoice.org/colorsof.html">Colors of the Church Year</a> page
       which served as one of several inputs to this effort.
+    </div>
     </div>
   );
 }

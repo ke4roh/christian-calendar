@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Year from './components/Year';
 import ChristianCalendar from './libs/christian-calendar.ts';
+import './App.css';
 
 function App() {
   const [year, setYear] = useState(null);

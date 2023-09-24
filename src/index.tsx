@@ -1,3 +1,5 @@
+import './root.css';
+
 import React from 'react';
 import App from './App';
 import 'react-tooltip/dist/react-tooltip.css'

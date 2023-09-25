@@ -6,6 +6,15 @@
   padding: 20px;
 }
 
+.year-title-container {
+  margin-bottom: 1em;
+}
+
+.year-title-container h1,
+.year-title-container h2 {
+  margin: 0.2em 0;
+}
+
 .year-metadata {
   text-align: center;
 }

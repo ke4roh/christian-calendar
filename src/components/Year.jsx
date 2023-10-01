@@ -31,10 +31,12 @@ function Year({ year }) {
         </table>
         <p>Many thanks to Dennis Bratcher for his <a href="http://www.crivoice.org/colorsof.html">Colors of the Church Year</a> page
           which served as one of several inputs to this effort.</p>
-        <p>For more information about the Christian Calendar, see Wikipedia's
-          <a href="https://en.wikipedia.org/wiki/Christian_calendar">Christian Calendar</a> page.</p>
-        <p>The source code for this perpetual calendar can be found on
-          <a href="https://github.com/ke4roh/christian-calendar">Github</a>.</p>
+        <p>For more information about the Christian Calendar, see
+          Wikipedia's <a href="https://en.wikipedia.org/wiki/Christian_calendar">Christian Calendar</a> page
+          and Marcos J. Montes's "<a href="https://web.archive.org/web/20130724164256/http://www.smart.net/~mmontes/ec-cal.html">
+            Calculation of the Ecclesiastical Calendar</a>"</p>
+        <p>The source code for this perpetual calendar can be found
+          on <a href="https://github.com/ke4roh/christian-calendar">Github</a>.</p>
       </div>
     </div>
   );

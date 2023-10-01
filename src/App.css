@@ -1,8 +1,11 @@
-.year-container {
-  display: inline-block;
+.year-demo-container {
   width: 100%;
   max-width: 750px;
   margin: auto;
+}
+
+.year-container {
+  display: inline-block;
   padding: 20px;
 }
 
@@ -58,8 +61,44 @@
   background-color: #f2f2f2;
 }
 
+.year-nav-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+buttonX {
+background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+button {
+  background-color: #008000; /* Primary blue */
+  color: white; /* Text color */
+  padding: 6px 12px; /* Vertical and horizontal padding */
+  border: none; /* Removes default border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Hand cursor on hover */
+  transition: background-color 0.3s ease; /* Transition effect */
+}
+
+button:hover {
+  background-color: #005000; /* Darker blue */
+}
+
+button:active {
+  background-color: #003000; /* Even darker blue */
+}
+
 @media (max-width: 768px) {
-  .year-container {
+  .year-demo-container {
     width: 100%;
   }
   .seasons-table {

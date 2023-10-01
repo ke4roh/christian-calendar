@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Year from './components/Year';
 import ChristianCalendar from './libs/christian-calendar.ts';
 import './App.css';
@@ -7,6 +7,7 @@ import './App.css';
 function App() {
   const [year, setYear] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -32,9 +33,20 @@ function App() {
     setYear(newYear);
   }, [location.search]);
 
-  console.log("Current Year State:", year); // Debug log 4
+  const navigateToYear = (increment) => {
+    const newYear = (year ? year.year : new Date().getFullYear()) + increment;
+    navigate(`?year=${newYear}`);
+  };
 
-  return year ? <Year year={year} /> : <div>Loading...</div>;
+  return (
+   <div className={"year-demo-container"}>
+     <div className={"year-nav-button-container"}>
+     <button onClick={() => navigateToYear(-1)}>Previous Year</button>
+     <button onClick={() => navigateToYear(1)}>Next Year</button>
+     </div>
+     {year ? <Year year={year} /> : <div>Loading...</div>}
+   </div>
+  );
 }
 
 export default App;

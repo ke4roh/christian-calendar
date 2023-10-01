@@ -21,8 +21,8 @@ const Color = ({ color }) => {
         border: "1px solid black"
       }}>
         <div
-            role={"image"}
-            alt={color.name}
+            role={"img"}
+            aria-label={color.name}
             style={{
               backgroundColor: color.rgb,
               width: 20,

@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { Tooltip } from "react-tooltip"; // Make sure this import is correct.
 import { v4 as uuid } from 'uuid';
+import type ChristianCalendar from '../libs/christian-calendar';
+const AnyTooltip: any = Tooltip;
 
-const Color = ({ color }) => {
+interface ColorProps {
+  color: ChristianCalendar.Color;
+}
+const Color: React.FC<ColorProps> = ({ color }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const tooltipId = React.useMemo(() => `${uuid()}-color-tooltip`, []); // Ensures the ID doesn't change on every render.
 
@@ -35,10 +40,9 @@ const Color = ({ color }) => {
             data-tooltip-content={color.name}
         >&nbsp;
         </div>
-        <Tooltip
+        <AnyTooltip
             id={tooltipId}
             place="top"
-            effect="solid"
             clickable={false}
             visible={isTooltipVisible}
         />

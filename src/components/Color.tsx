@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Tooltip } from "react-tooltip"; // Make sure this import is correct.
+import { Tooltip, type ITooltip } from "react-tooltip";
 import { v4 as uuid } from 'uuid';
 import type ChristianCalendar from '../libs/christian-calendar';
-const AnyTooltip: any = Tooltip;
+const TooltipComponent = Tooltip as React.FC<ITooltip>;
 
 interface ColorProps {
   color: ChristianCalendar.Color;
@@ -40,7 +40,7 @@ const Color: React.FC<ColorProps> = ({ color }) => {
             data-tooltip-content={color.name}
         >&nbsp;
         </div>
-        <AnyTooltip
+        <TooltipComponent
             id={tooltipId}
             place="top"
             clickable={false}

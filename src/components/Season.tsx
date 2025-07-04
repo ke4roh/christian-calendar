@@ -1,8 +1,12 @@
 import React from 'react';
 import Color from './Color';
+import type ChristianCalendar from '../libs/christian-calendar';
 
-function Season({ season }) {
-  const options = { month: 'short', day: 'numeric' };
+interface SeasonProps {
+  season: ChristianCalendar.Season;
+}
+const Season: React.FC<SeasonProps> = ({ season }) => {
+  const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
   const startDate = season.startDate.toLocaleDateString(navigator.language, options)
   const endDate = season.endDate.toLocaleDateString(navigator.language, options)
   const date = startDate === endDate ? startDate : `${startDate} - ${endDate}`

@@ -1,7 +1,11 @@
 import React from 'react';
 import Season from './Season';
+import type ChristianCalendar from '../libs/christian-calendar';
 
-function Year({ year }) {
+interface YearProps {
+  year: ChristianCalendar.Year;
+}
+const Year: React.FC<YearProps> = ({ year }) => {
   return (
     <div className={"year-container"}>
       <div className={"year-metadata"}>
@@ -14,7 +18,7 @@ function Year({ year }) {
           Year {year.dailyOfficeYear} of the <a href="https://www.bcponline.org/DailyOffice/">Daily Office of the Book of
             Common Prayer</a>, beginning with
           the First Sunday of Advent, {year.year - 1}.</p>
-        <table border="1px black" className={"seasons-table"}>
+        <table style={{ border: '1px solid black' }} className={"seasons-table"}>
           <thead>
           <tr>
             <th>primary colors</th>

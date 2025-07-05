@@ -85,6 +85,7 @@ describe("getSeason", () => {
     [new DateWithoutTime("2020-12-25"), "Christmas"],
     [new DateWithoutTime("2020-12-01"), "Advent 1-2"],
     [new DateWithoutTime("2020-04-01"), "Lent"],
+    [new Date("2020/04/01"), "Lent"],
     [new DateWithoutTime("2020-11-28"), "Christ the King"],
   ])("The season for %p should be %s", (date, expectedSeason) => {
     expect(getSeason(date).name).toEqual(expectedSeason);

@@ -44,7 +44,7 @@ const Color: React.FC<ColorProps> = ({ color }) => {
             id={tooltipId}
             place="top"
             clickable={false}
-            visible={isTooltipVisible}
+            isOpen={isTooltipVisible}
         />
       </div>
   );

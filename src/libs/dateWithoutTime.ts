@@ -27,7 +27,7 @@ export default class DateWithoutTime {
       this.date = moment.utc({ year: _year, month: _month, day: _day}).startOf("day");
     } catch (error) {
         if (error instanceof RangeError) {
-           console.log(`${error.message}: ${_year}-${_month + 1}-${_day}`)
+           console.error(`${error.message}: ${_year}-${_month + 1}-${_day}`)
         }
         throw error;
     }

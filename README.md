@@ -35,3 +35,7 @@ For faster feedback on failing tests you can run:
 ```bash
 npm run quickTest
 ```
+To generate a coverage report:
+```bash
+npm run coverage
+```

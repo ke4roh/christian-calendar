@@ -22,8 +22,10 @@ const LiturgicalCalendar: React.FC<LiturgicalCalendarProps> = ({ year, onYearCha
   );
 
   useEffect(() => {
-    if (year !== undefined && year !== currentYear.year) {
-      setCurrentYear(new CalendarYear(year));
+    if (year !== undefined) {
+      setCurrentYear((cur) =>
+        year !== cur.year ? new CalendarYear(year) : cur
+      );
     }
   }, [year]);
 

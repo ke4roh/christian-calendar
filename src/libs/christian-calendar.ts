@@ -173,11 +173,12 @@ namespace ChristianCalendar {
   // Some dates include multiple seasons.  This function returns the
   // first season that includes the date.
   export function getSeason(date: Date | DateWithoutTime): Season {
-    const seasons: Season[] = (new Year(yearFor(date))).seasons
+    const normalized = date instanceof Date ? new DateWithoutTime(date) : date;
+    const seasons: Season[] = (new Year(yearFor(normalized))).seasons
     let index = -1;
 
     // linear search for the first season that includes the date
-    while (index < seasons.length - 1 && seasons[index + 1].startDate.getTime() <= date.getTime()) {
+    while (index < seasons.length - 1 && seasons[index + 1].startDate.getTime() <= normalized.getTime()) {
       index++;
     }
 

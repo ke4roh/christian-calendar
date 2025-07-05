@@ -1,9 +1,9 @@
 import React from 'react';
 import Season from './Season';
-import type ChristianCalendar from '../libs/christian-calendar';
+import type { Year as CalendarYear } from '../libs/christian-calendar';
 
 interface YearProps {
-  year: ChristianCalendar.Year;
+  year: CalendarYear;
 }
 const Year: React.FC<YearProps> = ({ year }) => {
   return (

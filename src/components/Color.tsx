@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Tooltip, type ITooltip } from "react-tooltip";
 import { v4 as uuid } from 'uuid';
-import type ChristianCalendar from '../libs/christian-calendar';
+import type { Color as CalendarColor } from '../libs/christian-calendar';
 const TooltipComponent = Tooltip as React.FC<ITooltip>;
 
 interface ColorProps {
-  color: ChristianCalendar.Color;
+  color: CalendarColor;
 }
 const Color: React.FC<ColorProps> = ({ color }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);

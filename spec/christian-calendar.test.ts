@@ -1,4 +1,12 @@
-import ChristianCalendar from '../src/libs/christian-calendar';
+import {
+  Year,
+  Color,
+  colorize,
+  getSeason,
+  computeAdvent,
+  rclYear,
+  yearFor,
+} from '../src/libs/christian-calendar';
 import DateWithoutTime from '../src/libs/dateWithoutTime';
 
 function idate(dateString: string): DateWithoutTime {
@@ -9,18 +17,18 @@ type SeasonTestCase = {
   name: string;
   startDate: DateWithoutTime;
   endDate: DateWithoutTime;
-  colors: ChristianCalendar.Color[];
-  alternateColors: ChristianCalendar.Color[];
+  colors: Color[];
+  alternateColors: Color[];
 }
 
 function stc(name: string, startDate: string, endDate: string, colors: string[], alternateColors: string[]): SeasonTestCase {
-	return {
-		name: name,
-		startDate: idate(startDate),
-		endDate: idate(endDate),
-		colors: colors.map(ChristianCalendar.colorize),
-		alternateColors: alternateColors.map(ChristianCalendar.colorize)
-	};
+        return {
+                name: name,
+                startDate: idate(startDate),
+                endDate: idate(endDate),
+                colors: colors.map(colorize),
+                alternateColors: alternateColors.map(colorize)
+        };
 }
 
    const cases = [
@@ -53,20 +61,20 @@ function stc(name: string, startDate: string, endDate: string, colors: string[],
 
 describe('Year class', () => {
   it ("Should know its year number and RCL year", () => {
-     const year = new ChristianCalendar.Year(2021);
+     const year = new Year(2021);
      expect(year.year).toBe(2021);
      expect(year.rclYear).toBe('B');
   });    
 
   it ("Should return the correct number of seasons for a given year.", () => { 
-    const year = new ChristianCalendar.Year(2021);
+    const year = new Year(2021);
     const seasons = year.seasons;
     expect(year.seasons).toHaveLength(25);
   });
 
   
   test.each(cases)("The season $name for $startDate should be correctly initialized", (expected) => {
-      const season = ChristianCalendar.getSeason(expected.startDate);
+      const season = getSeason(expected.startDate);
       expect(season).toMatchObject(expected);
   }); // each seasaon
 }); // year
@@ -79,14 +87,14 @@ describe("getSeason", () => {
     [new DateWithoutTime("2020-04-01"), "Lent"],
     [new DateWithoutTime("2020-11-28"), "Christ the King"],
   ])("The season for %p should be %s", (date, expectedSeason) => {
-    expect(ChristianCalendar.getSeason(date).name).toEqual(expectedSeason);
+    expect(getSeason(date).name).toEqual(expectedSeason);
   });
 
   test("The season for 2023-12-24 should be Advent 4", () => {
     // This is an odd case because Christmas Eve and Advent 4 overlap.  Since Advent 4
     // comes before Christmas Eve most years, we want to make sure that the season
     // Advent 4 comes back first.
-    expect(ChristianCalendar.getSeason(new DateWithoutTime("2023-12-24"))).toMatchObject(
+    expect(getSeason(new DateWithoutTime("2023-12-24"))).toMatchObject(
         stc("Advent 4",      "2023-12-24", "2023-12-24",
             ["dark blue", "blue"], ["blue violet", "purple"])
     )
@@ -102,7 +110,7 @@ describe("computeAdvent", () => {
     [2024, new DateWithoutTime("2024-12-01")],
     [2025, new DateWithoutTime("2025-11-30")],
   ])("First Sunday in Advent %i should be %p", (year, expected) => {
-    expect(ChristianCalendar.computeAdvent(Number(year))).toEqual(expected);
+    expect(computeAdvent(Number(year))).toEqual(expected);
   });
 });
 
@@ -116,17 +124,17 @@ describe('RCLYear', () => {
     [2023,'A'],
     [2024,'B']
   ])('RCL year for %d should be %s', (year, expected) => {
-    expect(ChristianCalendar.rclYear(year)).toBe(expected);
+    expect(rclYear(year)).toBe(expected);
   });
 });
 
 describe('Daily Office year', () => {
   test('Daily Office year for 2021 should be 1', () => {
-    let cal = new ChristianCalendar.Year(2021);
+    let cal = new Year(2021);
     expect(cal.dailyOfficeYear).toBe("1");
   });
   test('Daily Office year for 2022 should be 2', () => {
-    let cal = new ChristianCalendar.Year(2022);
+    let cal = new Year(2022);
     expect(cal.dailyOfficeYear).toBe("2");
   });
 });
@@ -142,6 +150,6 @@ describe("yearFor", () => {
     [new DateWithoutTime("2023-09-04"), 2023],
     [new Date("2023/09/04"), 2023]
   ])("The year number for %p should be %i", (date, expectedYear) => {
-    expect(ChristianCalendar.yearFor(date)).toEqual(expectedYear);
+    expect(yearFor(date)).toEqual(expectedYear);
   });
 });

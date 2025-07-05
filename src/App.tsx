@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Year from './components/Year';
-import ChristianCalendar from './libs/christian-calendar';
+import { Year as CalendarYear, yearFor } from './libs/christian-calendar';
 import './App.css';
 
 function App() {
-  const [year, setYear] = useState<ChristianCalendar.Year | null>(null);
+  const [year, setYear] = useState<CalendarYear | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -18,11 +18,11 @@ function App() {
       effectiveYear = Math.max(parseInt(yearParam, 10), 1876);
     } else {
       let date = new Date();
-      effectiveYear = ChristianCalendar.yearFor(date);
+      effectiveYear = yearFor(date);
     }
 
 
-    const newYear = new ChristianCalendar.Year(effectiveYear);
+    const newYear = new CalendarYear(effectiveYear);
 
     setYear(newYear);
   }, [location.search]);

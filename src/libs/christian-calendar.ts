@@ -4,7 +4,6 @@ import Easter from "./easter";
 
 
 // Library for computing the Christian calendar seasons and colors
-namespace ChristianCalendar {
 
 
   // Compute the start of advent for a given calendar year
@@ -68,8 +67,8 @@ namespace ChristianCalendar {
   // Convenience function to yield a color from a string
   export function colorize(name: string): Color {
     const color = palette.get(_cleanColorName(name));
-    if (!color) 
-    throw new Error(`Invalid color: "${name}" - valid ones are "${Array.from(ChristianCalendar.palette.keys()).join('", "')}"`);
+    if (!color)
+    throw new Error(`Invalid color: "${name}" - valid ones are "${Array.from(palette.keys()).join('", "')}"`);
     return color;
 
   }
@@ -189,6 +188,4 @@ namespace ChristianCalendar {
      let advent = computeAdvent(_date.year);
      return (advent.getTime() <= _date.getTime() ? 1 : 0) + _date.year;
   }
-}
 
-export default ChristianCalendar;

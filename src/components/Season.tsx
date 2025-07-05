@@ -1,9 +1,9 @@
 import React from 'react';
 import Color from './Color';
-import type ChristianCalendar from '../libs/christian-calendar';
+import type { Season as CalendarSeason } from '../libs/christian-calendar';
 
 interface SeasonProps {
-  season: ChristianCalendar.Season;
+  season: CalendarSeason;
 }
 const Season: React.FC<SeasonProps> = ({ season }) => {
   const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };

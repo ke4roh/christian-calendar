@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import LiturgicalCalendar from './components/LiturgicalCalendar';
-import { yearFor } from './libs/christian-calendar';
+import LiturgicalCalendar from '../components/LiturgicalCalendar';
+import { yearFor } from '../libs/christian-calendar';
 
 function App() {
   const [year, setYear] = useState<number | null>(null);

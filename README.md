@@ -67,6 +67,10 @@ npm run build:lib
 The output is written to the `dist/` directory and can be published to npm or
 another registry.
 
+The React demo lives in `src/demo` and is intentionally excluded from the
+compiled output.  Running `npm start` launches this demo using `react-scripts`
+while `npm run build:lib` builds only the distributable library files.
+
 ### Publishing to npm
 
 This repository includes a GitHub Action that publishes the compiled library to

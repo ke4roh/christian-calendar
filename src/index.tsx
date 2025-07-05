@@ -1,7 +1,7 @@
 import './root.css';
 
 import React from 'react';
-import App from './App';
+import App from './demo/App';
 import 'react-tooltip/dist/react-tooltip.css'
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';

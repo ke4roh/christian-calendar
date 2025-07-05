@@ -2,13 +2,15 @@
   "name": "Christian Calendar",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.tsx",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "quickTest": "jest --bail --onlyFailures",
     "coverage": "jest --coverage",
     "start": "react-scripts start",
     "build": "react-scripts build --entry ./src/index.tsx",
+    "build:lib": "tsc -p tsconfig.build.json",
     "eject": "react-scripts eject"
   },
   "homepage": "./",

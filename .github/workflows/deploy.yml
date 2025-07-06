@@ -14,6 +14,8 @@ jobs:
         - name: Install dependencies
           run: npm install
         - name: Build
+          env:
+            PUBLIC_URL: https://ke4roh.github.io/christian-calendar
           run: |
             npm test
             npm run build

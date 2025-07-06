@@ -13,7 +13,7 @@
     "build:lib": "tsc -p tsconfig.build.json",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://github.com/ke4roh/christian-calendar",
+  "homepage": "https://ke4roh.github.io/christian-calendar/",
   "eslintConfig": {
     "extends": [
       "react-app",

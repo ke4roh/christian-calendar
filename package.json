@@ -2,8 +2,8 @@
   "name": "Christian Calendar",
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/library.js",
+  "types": "dist/library.d.ts",
   "scripts": {
     "test": "jest",
     "quickTest": "jest --bail --onlyFailures",

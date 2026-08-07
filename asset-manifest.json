@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "https://ke4roh.github.io/christian-calendar/static/css/main.58b87467.css",
-    "main.js": "https://ke4roh.github.io/christian-calendar/static/js/main.7a35547b.js",
+    "main.js": "https://ke4roh.github.io/christian-calendar/static/js/main.bd2e3bda.js",
     "index.html": "https://ke4roh.github.io/christian-calendar/index.html",
     "main.58b87467.css.map": "https://ke4roh.github.io/christian-calendar/static/css/main.58b87467.css.map",
-    "main.7a35547b.js.map": "https://ke4roh.github.io/christian-calendar/static/js/main.7a35547b.js.map"
+    "main.bd2e3bda.js.map": "https://ke4roh.github.io/christian-calendar/static/js/main.bd2e3bda.js.map"
   },
   "entrypoints": [
     "static/css/main.58b87467.css",
-    "static/js/main.7a35547b.js"
+    "static/js/main.bd2e3bda.js"
   ]
 }
